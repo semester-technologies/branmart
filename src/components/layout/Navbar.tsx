@@ -1,13 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation"; // 👈 add this
+import { useState, useRef, useEffect } from "react";
+import {
+  ChevronDown,
+  Menu,
+  X,
+  BookOpen,
+  HelpCircle,
+  Headphones,
+} from "lucide-react";
+import { usePathname } from "next/navigation";
 import { cn } from "@/src/lib/cn";
 import Image from "next/image";
+import type { LucideIcon } from "lucide-react";
 
-const navLinks = [
+interface NavChild {
+  label: string;
+  href: string;
+  description?: string;
+  icon?: LucideIcon;
+}
+
+interface NavLink {
+  label: string;
+  href: string;
+  children?: NavChild[];
+}
+
+const navLinks: NavLink[] = [
   { label: "Features", href: "/features" },
   { label: "Templates", href: "/templates" },
   { label: "Pricing", href: "/pricing" },
@@ -15,8 +36,24 @@ const navLinks = [
     label: "Resources",
     href: "#",
     children: [
-      { label: "Blog", href: "/blog" },
-      { label: "Help Centre", href: "/help-centre" },
+      {
+        label: "Blog",
+        description: "Tips on e-commerce, design, and marketing",
+        href: "/blog",
+        icon: BookOpen,
+      },
+      {
+        label: "Help Centre",
+        description: "Articles on setup, payments, customization, troubleshooting",
+        href: "/help-centre",
+        icon: HelpCircle,
+      },
+      {
+        label: "Contact Us",
+        description: "Get in touch with us, our team is ready to assist.",
+        href: "/contact-us",
+        icon: Headphones,
+      },
     ],
   },
   { label: "About", href: "/about-us" },
@@ -25,11 +62,30 @@ const navLinks = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
-  const pathname = usePathname(); // 👈 add this
+  const pathname = usePathname();
+  const resourcesRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target as Node)) {
+        setResourcesOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setResourcesOpen(false);
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-8">
+
         {/* ── Logo ── */}
         <Link href="/">
           <Image
@@ -46,45 +102,51 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-7 flex-1">
           {navLinks.map((link) =>
             link.children ? (
-              <div key={link.label} className="relative">
+              <div key={link.label} className="relative" ref={resourcesRef}>
                 <button
                   onClick={() => setResourcesOpen((p) => !p)}
-                  className="flex items-center gap-1 text-sm text-gray-700 hover:text-[#cc3602] transition-colors"
+                  className={cn(
+                    "flex items-center gap-1 text-sm transition-colors",
+                    resourcesOpen
+                      ? "text-[#cc3602]"
+                      : "text-gray-700 hover:text-[#cc3602]"
+                  )}
                 >
                   {link.label}
                   <ChevronDown
                     size={15}
-                    className={cn(
-                      "transition-transform",
-                      resourcesOpen && "rotate-180",
-                    )}
+                    className={cn("transition-transform", resourcesOpen && "rotate-180")}
                   />
                 </button>
 
                 {resourcesOpen && (
-                  <div className="absolute top-8 left-0 w-44 bg-white border border-gray-100 rounded-xl shadow-md py-2 z-50">
+                  <div className="absolute top-8 left-0 w-72 bg-white border border-gray-100 rounded-2xl shadow-lg py-3 z-50">
                     {link.children.map((child) => (
                       <Link
                         key={child.label}
                         href={child.href}
                         onClick={() => setResourcesOpen(false)}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:text-[#cc3602] hover:bg-orange-50 transition-colors"
+                        className="flex items-start gap-3 px-4 py-3 hover:bg-orange-50 transition-colors rounded-xl mx-1"
                       >
-                        {child.label}
+                        {child.icon && (
+                          <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                            <child.icon size={15} className="text-[#cc3602]" />
+                          </div>
+                        )}
+                        <div>
+                          <p className="text-sm font-semibold text-[#241717]">{child.label}</p>
+                          {child.description && (
+                            <p className="text-xs text-gray-400 leading-relaxed mt-0.5">
+                              {child.description}
+                            </p>
+                          )}
+                        </div>
                       </Link>
                     ))}
                   </div>
                 )}
               </div>
             ) : (
-              //   <Link
-              //     key={link.label}
-              //     href={link.href}
-              //     className="text-sm text-gray-700 hover:text-[#cc3602] transition-colors"
-              //   >
-              //     {link.label}
-              //   </Link>
-
               <Link
                 key={link.label}
                 href={link.href}
@@ -97,7 +159,7 @@ export default function Navbar() {
               >
                 {link.label}
               </Link>
-            ),
+            )
           )}
         </nav>
 
@@ -140,10 +202,7 @@ export default function Navbar() {
                   {link.label}
                   <ChevronDown
                     size={14}
-                    className={cn(
-                      "transition-transform",
-                      resourcesOpen && "rotate-180",
-                    )}
+                    className={cn("transition-transform", resourcesOpen && "rotate-180")}
                   />
                 </button>
                 {resourcesOpen && (
@@ -162,15 +221,6 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              //   <Link
-              //     key={link.label}
-              //     href={link.href}
-              //     onClick={() => setMobileOpen(false)}
-              //     className="text-sm text-gray-700 hover:text-[#cc3602]"
-              //   >
-              //     {link.label}
-              //   </Link>
-
               <Link
                 key={link.label}
                 href={link.href}
@@ -184,7 +234,7 @@ export default function Navbar() {
               >
                 {link.label}
               </Link>
-            ),
+            )
           )}
 
           <div className="pt-2 border-t border-gray-100 flex flex-col gap-3">

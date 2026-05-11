@@ -1,9 +1,9 @@
-import React from 'react'
+import BlogPageClient from "./BlogPageClient";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+export const metadata = {
+  title: "Company Blog",
+};
+
+export default function BlogPage() {
+  return <BlogPageClient />;
 }
-
-export default page
