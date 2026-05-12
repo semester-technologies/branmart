@@ -16,7 +16,7 @@ export default function Hero() {
           </div>
 
           {/* Heading */}
-          <h1 className="font-display text-4xl md:text-5xl lg:text-[52px] font-bold leading-tight text-white">
+          <h1 className="font-body text-4xl md:text-5xl lg:text-[52px] font-bold leading-tight text-white">
             Your Business Deserves <br className="hidden sm:block" />a{" "}
             <span className="text-[#cc3602]">Professional Website</span>
           </h1>
