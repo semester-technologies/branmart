@@ -8,6 +8,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Eye, EyeOff, ArrowLeft, Shield } from "lucide-react";
 import { cn } from "@/src/lib/cn";
+// import router from "next/router";
+import { useRouter } from "next/navigation";
 
 function getPasswordStrength(password: string): {
   score: number;
@@ -33,6 +35,7 @@ function getPasswordStrength(password: string): {
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -51,6 +54,7 @@ export default function SignUpForm() {
     }),
     onSubmit: (values) => {
       console.log("Submit:", values);
+      router.push("/sign-up/verify-email"); // TODO: call Django API to create account and send verification email, then navigate to verification page
       // TODO: call Django API
     },
   });
@@ -67,13 +71,13 @@ export default function SignUpForm() {
     );
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
 
       {/* ── Left: form panel ── */}
-      <div className="flex-1 flex flex-col bg-white px-8 md:px-12 py-6">
+       <div className="flex-1 flex flex-col bg-white px-8 md:px-12 py-6 overflow-y-auto">
 
         {/* Top bar */}
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex items-center justify-between mb-5">
           <Link href="/">
             <Image
               src="/Branmart-Logo.png"
@@ -92,11 +96,11 @@ export default function SignUpForm() {
         {/* Form */}
         <div className="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full">
           <h1 className="text-2xl font-bold text-[#241717] mb-1">Create your account</h1>
-          <p className="text-sm text-gray-500 mb-8">Start building your professional website today</p>
+          <p className="text-sm text-gray-500 mb-5">Start building your professional website today</p>
 
           {/* Google */}
-          <button className="w-full flex items-center justify-center gap-3 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-600 hover:border-gray-400 transition-colors mb-5">
-            <svg viewBox="0 0 24 24" className="w-4 h-4">
+          <button className="w-full flex items-center justify-center gap-3 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-600 hover:border-gray-400 transition-colors mb-3">
+            <svg viewBox="0 0 24 24" className="w-4 h-3">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
@@ -106,13 +110,13 @@ export default function SignUpForm() {
           </button>
 
           {/* Divider */}
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-3 mb-3">
             <div className="flex-1 h-px bg-gray-200" />
             <span className="text-xs text-gray-400">or</span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
 
             {/* Email */}
             <div>
@@ -264,20 +268,20 @@ export default function SignUpForm() {
 
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-gray-500 mt-4">
             Already have an account?{" "}
             <Link href="/sign-in" className="text-[#cc3602] font-medium">Log in</Link>
           </p>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs text-gray-400 mt-8">
+        <p className="text-center text-xs text-gray-400 mt-5">
           © 2026 Branmart. All rights reserved.
         </p>
       </div>
 
       {/* ── Right: branding panel ── */}
-      <div className="hidden lg:flex w-[480px] shrink-0 bg-[#F07316] flex-col items-center justify-center gap-6 px-12 text-center relative overflow-hidden">
+      <div className="hidden lg:flex w-[580px] shrink-0 bg-[#F07316] flex-col items-center justify-center gap-6 px-12 text-center relative overflow-hidden">
 
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
