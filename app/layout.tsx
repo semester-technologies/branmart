@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Agdasima, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
+import CookieBanner from "@/src/components/layout/CookieBanner";
 
 const agdasima = Agdasima({
   variable: "--font-display",
@@ -29,6 +30,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-body bg-white text-gray-900">
         {children}
+         <CookieBanner />
       </body>
     </html>
   );
