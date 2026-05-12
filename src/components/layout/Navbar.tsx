@@ -9,6 +9,7 @@ import {
   BookOpen,
   HelpCircle,
   Headphones,
+  Lock,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/src/lib/cn";
@@ -53,6 +54,12 @@ const navLinks: NavLink[] = [
         description: "Get in touch with us, our team is ready to assist.",
         href: "/contact-us",
         icon: Headphones,
+      },
+      {
+        label: "Privacy Policy",
+        description: "Learn about data collection, usage, and protection.",
+        href: "/privacy-policy",
+        icon: Lock,
       },
     ],
   },
@@ -189,72 +196,85 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* ── Mobile menu ── */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white px-6 py-4 flex flex-col gap-4">
-          {navLinks.map((link) =>
-            link.children ? (
-              <div key={link.label}>
-                <button
-                  onClick={() => setResourcesOpen((p) => !p)}
-                  className="flex items-center gap-1 text-sm text-gray-700 w-full"
+{/* ── Mobile menu ── */}
+{mobileOpen && (
+  <div className="md:hidden border-t border-gray-100 bg-white px-6 py-4 flex flex-col gap-4">
+    {navLinks.map((link) =>
+      link.children ? (
+        <div key={link.label}>
+          <button
+            onClick={() => setResourcesOpen((p) => !p)}
+            className="flex items-center gap-1 text-sm text-gray-700 w-full"
+          >
+            {link.label}
+            <ChevronDown
+              size={14}
+              className={cn("transition-transform", resourcesOpen && "rotate-180")}
+            />
+          </button>
+          {resourcesOpen && (
+            <div className="pl-2 mt-3 flex flex-col gap-1">
+              {link.children.map((child) => (
+                <Link
+                  key={child.label}
+                  href={child.href}
+                  onClick={() => {
+                    setMobileOpen(false);
+                    setResourcesOpen(false);
+                  }}
+                  className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-orange-50 transition-colors"
                 >
-                  {link.label}
-                  <ChevronDown
-                    size={14}
-                    className={cn("transition-transform", resourcesOpen && "rotate-180")}
-                  />
-                </button>
-                {resourcesOpen && (
-                  <div className="pl-4 mt-2 flex flex-col gap-2">
-                    {link.children.map((child) => (
-                      <Link
-                        key={child.label}
-                        href={child.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="text-sm text-gray-600 hover:text-[#cc3602]"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+                  {child.icon && (
+                    <div className="w-7 h-7 bg-orange-50 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                      <child.icon size={14} className="text-[#cc3602]" />
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm font-semibold text-[#241717]">{child.label}</p>
+                    {child.description && (
+                      <p className="text-xs text-gray-400 mt-0.5">{child.description}</p>
+                    )}
                   </div>
-                )}
-              </div>
-            ) : (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  "text-sm transition-colors",
-                  pathname.startsWith(link.href)
-                    ? "text-[#cc3602] font-medium"
-                    : "text-gray-700 hover:text-[#cc3602]",
-                )}
-              >
-                {link.label}
-              </Link>
-            )
+                </Link>
+              ))}
+            </div>
           )}
-
-          <div className="pt-2 border-t border-gray-100 flex flex-col gap-3">
-            <Link
-              href="/sign-in"
-              onClick={() => setMobileOpen(false)}
-              className="text-sm text-gray-700 hover:text-[#cc3602]"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/sign-up"
-              onClick={() => setMobileOpen(false)}
-              className="text-sm font-medium text-center text-white bg-[#cc3602] hover:bg-[#e65a29] px-5 py-2.5 rounded-full transition-colors"
-            >
-              Start for free
-            </Link>
-          </div>
         </div>
-      )}
+      ) : (
+        <Link
+          key={link.label}
+          href={link.href}
+          onClick={() => setMobileOpen(false)}
+          className={cn(
+            "text-sm transition-colors",
+            pathname.startsWith(link.href)
+              ? "text-[#cc3602] font-medium"
+              : "text-gray-700 hover:text-[#cc3602]",
+          )}
+        >
+          {link.label}
+        </Link>
+      )
+    )}
+
+    <div className="pt-2 border-t border-gray-100 flex flex-col gap-3">
+      <Link
+        href="/sign-in"
+        onClick={() => setMobileOpen(false)}
+        className="text-sm text-gray-700 hover:text-[#cc3602]"
+      >
+        Log in
+      </Link>
+      <Link
+        href="/sign-up"
+        onClick={() => setMobileOpen(false)}
+        className="text-sm font-medium text-center text-white bg-[#cc3602] hover:bg-[#e65a29] px-5 py-2.5 rounded-full transition-colors"
+      >
+        Start for free
+      </Link>
+    </div>
+  </div>
+)}
     </header>
   );
 }

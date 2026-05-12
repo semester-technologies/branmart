@@ -1,16 +1,18 @@
 // src/components/marketing/help-centre/PopularArticles.tsx
 
 import { Globe, Link2, CreditCard, Package, Lock, BarChart2, ShoppingCart, Box } from "lucide-react";
+import Link from "next/link";
 
+// update articles array to include slugs
 const articles = [
-  { icon: Globe,        title: "How to Publish Your Website"        },
-  { icon: Link2,        title: "How to Connect a Custom Domain"      },
-  { icon: CreditCard,   title: "Setting Up Online Payments"          },
-  { icon: Package,      title: "Managing Product Inventory"          },
-  { icon: Lock,         title: "Resetting Your Account Password"     },
-  { icon: BarChart2,    title: "Understanding Your Sales Dashboard"  },
-  { icon: ShoppingCart, title: "Setting Up Online Payments"          },
-  { icon: Box,          title: "Managing Product Inventory"          },
+  { icon: Globe,        title: "How to Publish Your Website",          topic: "getting-started",  slug: "how-to-publish-your-website"         },
+  { icon: Link2,        title: "How to Connect a Custom Domain",        topic: "domains-hosting",  slug: "how-to-connect-a-custom-domain"       },
+  { icon: CreditCard,   title: "Setting Up Online Payments",            topic: "getting-started",  slug: "setting-up-online-payments"           },
+  { icon: Package,      title: "Managing Product Inventory",            topic: "getting-started",  slug: "managing-product-inventory"           },
+  { icon: Lock,         title: "Resetting Your Account Password",       topic: "account-billing",  slug: "resetting-your-account-password"      },
+  { icon: BarChart2,    title: "Understanding Your Sales Dashboard",    topic: "getting-started",  slug: "understanding-your-sales-dashboard"   },
+  { icon: ShoppingCart, title: "Setting Up Online Payments",            topic: "getting-started",  slug: "setting-up-online-payments-2"         },
+  { icon: Box,          title: "Managing Product Inventory",            topic: "getting-started",  slug: "managing-product-inventory-2"         },
 ];
 
 export default function PopularArticles() {
@@ -31,7 +33,8 @@ export default function PopularArticles() {
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {articles.map((article, i) => (
-            <button
+            <Link
+             href={`/help-centre/${article.topic}/${article.slug}`}
               key={i}
               className="bg-[#241717] hover:bg-[#2e2121] rounded-2xl p-6 flex flex-col items-center text-center gap-4 transition-colors"
             >
@@ -39,7 +42,7 @@ export default function PopularArticles() {
               <p className="text-sm font-medium text-white leading-snug">
                 {article.title}
               </p>
-            </button>
+            </Link>
           ))}
         </div>
 
