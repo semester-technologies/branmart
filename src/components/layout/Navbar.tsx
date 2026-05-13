@@ -73,13 +73,14 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const resourcesRef = useRef<HTMLDivElement>(null);
+  const mobileResourcesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (
-        resourcesRef.current &&
-        !resourcesRef.current.contains(e.target as Node)
-      ) {
+      const target = e.target as Node;
+      const inDesktop = resourcesRef.current?.contains(target);
+      const inMobile = mobileResourcesRef.current?.contains(target);
+      if (!inDesktop && !inMobile) {
         setResourcesOpen(false);
       }
     }
@@ -204,7 +205,7 @@ export default function Navbar() {
         <div className="md:hidden border-t border-gray-100 bg-white px-6 py-4 flex flex-col gap-4">
           {navLinks.map((link) =>
             link.children ? (
-              <div key={link.label}>
+              <div key={link.label} ref={mobileResourcesRef}>
                 <button
                   onClick={() => setResourcesOpen((p) => !p)}
                   className="flex items-center justify-between w-full text-sm text-gray-700 py-1"
@@ -219,9 +220,13 @@ export default function Navbar() {
                 {resourcesOpen && (
                   <div className="mt-2 flex flex-col gap-1">
                     {link.children.map((child) => (
-                      <a
+                      <Link
                         key={child.label}
                         href={child.href}
+                        onClick={() => {
+                          setResourcesOpen(false);
+                          setMobileOpen(false);
+                        }}
                         className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-orange-50 transition-colors w-full text-left"
                       >
                         {child.icon && (
@@ -239,7 +244,7 @@ export default function Navbar() {
                             </p>
                           )}
                         </div>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 )}
