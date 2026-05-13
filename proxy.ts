@@ -1,14 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PROTECTED_PREFIXES = ["/dashboard", "/store-setup", "/business-setup", "/choose-gateway"];
-const AUTH_ONLY_ROUTES = ["/sign-in", "/sign-up", "/forgot-password", "/reset-password"];
+const PROTECTED_PREFIXES = [
+  "/dashboard",
+  // "/store-setup",
+  "/business-setup",
+  "/choose-gateway",
+];
+const AUTH_ONLY_ROUTES = [
+  "/sign-in",
+  "/sign-up",
+  "/forgot-password",
+  "/reset-password",
+];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("branmart_access")?.value;
 
-  const isProtected = PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
-  const isAuthRoute = AUTH_ONLY_ROUTES.some((route) => pathname.startsWith(route));
+  const isProtected = PROTECTED_PREFIXES.some((prefix) =>
+    pathname.startsWith(prefix),
+  );
+  const isAuthRoute = AUTH_ONLY_ROUTES.some((route) =>
+    pathname.startsWith(route),
+  );
 
   // Unauthenticated user hitting a protected route → sign in
   if (isProtected && !token) {
