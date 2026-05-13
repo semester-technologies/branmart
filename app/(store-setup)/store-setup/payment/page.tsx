@@ -1,9 +1,8 @@
-import React from 'react'
+// app/(store-setup)/store-setup/payment/page.tsx
+import PaymentStep from "@/src/components/dashboard/store-setup/PaymentStep";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+export const metadata = { title: "Payment — Store Setup" };
+
+export default function PaymentPage() {
+  return <PaymentStep />;
 }
-
-export default page

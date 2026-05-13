@@ -1,9 +1,8 @@
-import React from 'react'
+// app/(store-setup)/store-setup/theme/page.tsx
+import ChooseTemplateStep from "@/src/components/dashboard/store-setup/ChooseTemplateStep";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+export const metadata = { title: "Choose Template — Store Setup" };
+
+export default function ChooseTemplatePage() {
+  return <ChooseTemplateStep />;
 }
-
-export default page
