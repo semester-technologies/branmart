@@ -256,7 +256,7 @@ export default function ChooseTemplateStep() {
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
                     <button
-                      onClick={() => router.push("/store-setup/theme-chosen")}
+                    //   onClick={() => router.push("/store-setup/theme-chosen")}
                       className="text-xs font-medium text-white bg-[#cc3602] hover:bg-[#e65a29] px-4 py-2 rounded-full transition-colors"
                     >
                       Use template
