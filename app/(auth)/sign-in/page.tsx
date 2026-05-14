@@ -1,9 +1,8 @@
-import React from 'react'
+// app/(auth)/sign-in/page.tsx
+import SignInForm from "@/src/components/auth/SignInForm";
 
-const page = () => {
-  return (
-    <div>page testing here</div>
-  )
+export const metadata = { title: "Login" };
+
+export default function SignInPage() {
+  return <SignInForm />;
 }
-
-export default page

@@ -1,9 +1,5 @@
-import React from 'react'
-
-const page = () => {
-  return (
-    <div>page</div>
-  )
+import ResetPasswordSuccess from "@/src/components/auth/ResetPasswordSuccess";
+export const metadata = { title: "Password Created" };
+export default function ResetPasswordSuccessPage() {
+  return <ResetPasswordSuccess />;
 }
-
-export default page
