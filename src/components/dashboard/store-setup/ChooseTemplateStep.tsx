@@ -247,37 +247,37 @@ export default function ChooseTemplateStep() {
                 key={t.id}
                 className="group relative rounded-2xl overflow-hidden border border-gray-100"
               >
-   <div className="relative w-full h-48 bg-gray-100">
-  {/* Mobile tap — goes to preview */}
-  <button
-    className="absolute inset-0 z-10 md:hidden"
-    onClick={() => router.push(`/store-setup/theme/${t.id}`)}
-    aria-label={`Preview ${t.name}`}
-  />
+                <div className="relative w-full h-48 bg-gray-100">
+                  {/* Mobile tap — goes to preview */}
+                  <button
+                    className="absolute inset-0 z-10 md:hidden"
+                    onClick={() => router.push(`/store-setup/theme/${t.id}`)}
+                    aria-label={`Preview ${t.name}`}
+                  />
 
-  <Image
-    src={t.image}
-    alt={t.name}
-    fill
-    className="object-cover object-top"
-  />
+                  <Image
+                    src={t.image}
+                    alt={t.name}
+                    fill
+                    className="object-cover object-top"
+                  />
 
-  {/* Desktop hover overlay */}
-  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex flex-col items-center justify-center gap-2">
-    <button
-      onClick={() => router.push("/store-setup/theme-chosen")}
-      className="text-xs font-medium text-white bg-[#cc3602] hover:bg-[#e65a29] px-4 py-2 rounded-full transition-colors"
-    >
-      Use template
-    </button>
-    <button
-      onClick={() => router.push(`/store-setup/theme/${t.id}`)}
-      className="inline-flex items-center gap-1 text-xs font-medium text-white border border-white/60 hover:border-white px-4 py-2 rounded-full transition-colors"
-    >
-      Preview <ExternalLink size={11} />
-    </button>
-  </div>
-</div>
+                  {/* Desktop hover overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex flex-col items-center justify-center gap-2">
+                    <button
+                      onClick={() => router.push("/store-setup/theme-chosen")}
+                      className="text-xs font-medium text-white bg-[#cc3602] hover:bg-[#e65a29] px-4 py-2 rounded-full transition-colors"
+                    >
+                      Use template
+                    </button>
+                    <button
+                      onClick={() => router.push(`/store-setup/theme/${t.id}`)}
+                      className="inline-flex items-center gap-1 text-xs font-medium text-white border border-white/60 hover:border-white px-4 py-2 rounded-full transition-colors"
+                    >
+                      Preview <ExternalLink size={11} />
+                    </button>
+                  </div>
+                </div>
 
                 <div className="flex items-center justify-between px-3 py-2.5 bg-white">
                   <span className="text-sm font-semibold text-[#241717]">

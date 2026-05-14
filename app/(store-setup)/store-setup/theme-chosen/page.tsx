@@ -1,9 +1,8 @@
-import React from 'react'
+// app/(store-setup)/store-setup/theme-chosen/page.tsx
+import SetupStep from "@/src/components/dashboard/store-setup/SetupStep";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+export const metadata = { title: "Setup — Store Setup" };
+
+export default function SetupPage() {
+  return <SetupStep />;
 }
-
-export default page
